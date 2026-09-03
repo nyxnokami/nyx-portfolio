@@ -1,0 +1,39 @@
+.project-cards-section {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2rem 0;
+}
+
+.project-cards-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) {
+  .project-cards-section {
+    padding: 2.5rem 0;
+  }
+
+  .project-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Large desktop: 3 columns */
+@media (min-width: 1024px) {
+  .project-cards-section {
+    padding: 3rem 0;
+  }
+
+  .project-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}

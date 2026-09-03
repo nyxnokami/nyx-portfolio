@@ -1,0 +1,183 @@
+:root {
+  --bg-obsidian: #0b0b0f;
+  --bg-velvet: #12121a;
+  --text-starlight: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent-violet: #8b5cf6;
+  --accent-indigo: #6366f1;
+  --font-sleek: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --nyx-glow: 0 0 30px rgba(139, 92, 246, 0.12);
+  --nyx-glow-soft: 0 4px 24px rgba(139, 92, 246, 0.06);
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-starlight);
+  font-family: var(--font-sleek);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 0%, var(--bg-velvet) 0%, var(--bg-obsidian) 70%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Glassmorphism utility inspired by emerald.pxxl.click */
+.nyx-glass {
+  background: rgba(18, 18, 26, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+/* Micro-interactions inspired by feranmi.appmd.dev */
+.nyx-interactive {
+  transition:
+    transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.45s ease,
+    border-color 0.35s ease;
+  box-shadow: 0 0 0 transparent;
+}
+.nyx-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--nyx-glow), var(--nyx-glow-soft);
+  border-color: rgba(139, 92, 246, 0.28);
+}
+
+/* Skills badge hover */
+.nyx-skill-badge {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nyx-skill-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 6px 18px rgba(139, 92, 246, 0.18);
+}
+
+/* Skills category grid — mobile-first responsive */
+.skills-category-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 640px) {
+  .skills-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills-category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Experience timeline node pulse */
+@keyframes nyxBulletPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+/* Hero availability status pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  section h2 {
+    font-size: 22px !important;
+  }
+  section h3 {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+  section p {
+    line-height: 1.45 !important;
+  }
+}
+
+/* Footer icon link hover */
+.nyx-footer a[aria-label] {
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.nyx-footer a[aria-label]:hover {
+  color: #c4b5fd;
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.1);
+}
+@media (max-width: 480px) {
+  footer p {
+    font-size: 12px !important;
+  }
+}
+
+/* Custom Ambiance State injected by our new toggle switch */
+body.twilight-eclipse {
+  background-image: radial-gradient(circle at 50% 30%, #1a0f30 0%, var(--bg-obsidian) 80%) !important;
+  transition: background-image 0.5s ease-in-out;
+}
+
+body.twilight-eclipse .nyx-glass {
+  background: rgba(26, 15, 48, 0.4);
+  border-color: rgba(139, 92, 246, 0.15);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.08);
+}
+
+/* ==========================================================================
+   NYX PORTFOLIO INTRO ANIMATIONS
+   ========================================================================== */
+
+/* Keyframe for the smooth cinematic drift up and fade in */
+@keyframes nyxRevealUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Base fade-in wrapper for the headline */
+.nyx-fade-in {
+  animation: nyxRevealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered delay for the subtitle, about card, and status beacon */
+.nyx-fade-in-delayed {
+  opacity: 0; /* Keeps it invisible until animation kicks off */
+  animation: nyxRevealUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+
