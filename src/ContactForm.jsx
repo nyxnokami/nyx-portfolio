@@ -7,7 +7,7 @@ function ContactForm() {
     message: '',
   });
   const [focusedField, setFocusedField] = useState(null);
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('idle'); // idle, submitting, success, error
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,10 +17,31 @@ function ContactForm() {
   const handleFocus = (fieldName) => setFocusedField(fieldName);
   const handleBlur = () => setFocusedField(null);
 
+  // Helper function to encode form data into standard URL parameters for Netlify
+  const encode = (data) => {
+    return Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+  };
+
   const handleSubmit = (e) => {
+    e.preventDefault(); // 👈 CRITICAL: Stops the browser from reloading and crashing the app
     setStatus('submitting');
-    // Netlify intercepts the POST natively; this just tracks local UI state.
-    // No preventDefault so the native form submission reaches Netlify.
+
+    // Transmit the payload asynchronously straight to Netlify's detection engine
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': 'contact', ...formData }),
+    })
+      .then(() => {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' }); // Clear inputs on success
+      })
+      .catch((error) => {
+        console.error(error);
+        setStatus('error');
+      });
   };
 
   const getInputStyle = (fieldName) => ({
@@ -47,13 +68,11 @@ function ContactForm() {
 
         <form
           name="contact"
-          method="POST"
-          data-netlify="true"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit} // 👈 Handles transaction safely via JS fetch
           style={styles.form}
         >
-          <input type="hidden" name="form-name" value="contact" />
-
+          {/* Note: In JavaScript SPA requests, data-netlify configurations are managed inside the fetch utility block above */}
+          
           <div style={styles.field}>
             <label htmlFor="name" style={styles.label}>
               Name
@@ -108,14 +127,18 @@ function ContactForm() {
             />
           </div>
 
-          <button type="submit" style={styles.submitButton}>
-            {status === 'submitting' ? 'Sending...' : 'Send Message'}
+          {/* Dynamic feedback on the button element state */}
+          <button type="submit" style={styles.submitButton} disabled={status === 'submitting'}>
+            {status === 'submitting' && 'Sending...'}
+            {status === 'success' && 'Message Sent! ✨'}
+            {status === 'error' && 'Error! Try Again.'}
+            {status === 'idle' && 'Send Message'}
           </button>
         </form>
       </div>
     </section>
   );
-};
+}
 
 const styles = {
   section: {
