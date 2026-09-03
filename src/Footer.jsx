@@ -24,7 +24,7 @@ const Footer = () => {
             <LinkedInIcon />
           </a>
           <a
-            href="mailto:olamia225@gmail.com"
+            href="mailto:olamia2225@gmail.com"
             aria-label="Email"
             style={styles.iconLink}
           >
